@@ -12,7 +12,7 @@ connectDB();
 
 //----routes(for registeration login )
 const authRoutes = require("./routes/authroutes")
-app.use("/ecommerce/customer", authRoutes);
+app.use("/ecommerce/dashboard", authRoutes);
 
 //----product routes to access products (admin access)
 const productRoutes = require("./routes/productroutes");

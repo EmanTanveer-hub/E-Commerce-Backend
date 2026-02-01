@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const {protect} = require('../middlewares/authmiddleware');
+const {adminOnly} = require('../middlewares/adminOnly');
+
 const {
   createProduct,
   allProducts,
@@ -17,10 +20,10 @@ router.get("/:id", oneProduct);
 
 //------------admin access only-----------//
 //----Create products(admin only)
-router.post("/create", createProduct);
+router.post("/create",protect,adminOnly, createProduct);
 //----update product
-router.put("/update/:id", updateProduct);
+router.put("/update/:id",protect,adminOnly, updateProduct);
 //----delete product
-router.delete("/:id", removeProduct);
+router.delete("/:id",protect,adminOnly, removeProduct);
 
 module.exports = router;
