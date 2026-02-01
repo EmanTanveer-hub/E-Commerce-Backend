@@ -1,3 +1,6 @@
+/*A middle ware that will be used to check rather the person (admin ,manager or customer) does not matter who he
+ is trying to acces a website is registered or not and i am gonna use it when i will make function of which person got what
+ type of access*/
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
