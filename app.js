@@ -10,9 +10,13 @@ const connectDB = require('./config/db');
 connectDB();
 
 
-//----routes
+//----routes(for registeration login )
 const authRoutes = require("./routes/authroutes")
 app.use("/ecommerce/customer", authRoutes);
+
+//----product routes to access products (admin access)
+const productRoutes = require("./routes/productroutes");
+app.use("/ecommerce/products",productRoutes);
 
 
 const PORT = process.env.PORT||5000;
