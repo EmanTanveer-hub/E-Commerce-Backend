@@ -1,33 +1,26 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const {protect} = require('../middleware/authmiddleware');
+const { protect } = require("../middleware/authmiddleware");
+const {
+  addtoCart,
+  getCart,
+  updateCart,
+  removefromCart,
+} = require("../controllers/cartcontrollers");
 
 // Cart routes(customer routes)
 //--when user add a product in a cart by clicking(Add to Cart)button
+router.post("/", addtoCart);
 
-router.post("/",additem);
+//--When user opens the cart by clicking Cart icon then list of products appear
+router.get("/", getCart);
 
-//--When user opens the cart by clicking Cart icon then list of products appear 
-
-router.get("/",allitems);
-
-
-//--When user add a product or if user removes it it updates the quantity of the product in backend 
+//--When user add a product or if user removes it it updates the quantity of the product in backend
 //--using (+) or (-) symbols
-router.put("/",updateitem);
-// DELETE item from this cart when user removes or delete item from cart 
-router.delete("/",delitem);
+router.put("/", updateCart);
 
-
-
-
-
-
-
-
-
-
-
+// DELETE item from this cart when user removes or delete item from cart
+router.delete("/", removefromCart);
 
 module.exports = router;
