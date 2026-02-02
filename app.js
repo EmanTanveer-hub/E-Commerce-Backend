@@ -17,6 +17,9 @@ app.use("/ecommerce/dashboard", authRoutes);
 //----product routes to access products (admin access)
 const productRoutes = require("./routes/productroutes");
 app.use("/ecommerce/products",productRoutes);
+//----cart feature
+const cartRoutes = require("./routes/cartroutes");
+app.use("/ecommerce/cart",cartRoutes);
 
 
 const PORT = process.env.PORT||5000;

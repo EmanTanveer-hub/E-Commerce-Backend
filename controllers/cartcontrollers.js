@@ -18,7 +18,9 @@ exports.addtoCart = async (req, res) => {
         ],
       });
     } else {
-      const itemIndex = cart.products.findIndex((p) => (p.product = productId));
+
+     const itemIndex = cart.products.findIndex((p) => p.product.equals(productId));
+
       if (itemIndex > -1) {
         cart.products[itemIndex].quantity += quantity;
       } else {
@@ -29,12 +31,51 @@ exports.addtoCart = async (req, res) => {
     await cart.save();
     res.status(200).json(cart);
   } catch (error) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: error.message });
   }
 };
 //---geting a view of cart
-exports.getCart = async (req, res) => {};
+exports.getCart = async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ user: req.user._id }).populate(
+      "products.product",
+    );
+    res.status(200).json(cart);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 //---updating the quantity of items
-exports.updateCart = async (req, res) => {};
+exports.updateCart = async (req, res) => {
+  const { productId, quantity } = req.body;
+  try {
+    let cart = await Cart.findOne({ user: req.user._id });
+    if (!cart) return res.status(404).json({ message: " Cart not found" });
+
+    const itemIndex = cart.products.findIndex((p) => (p.product = productId));
+
+    if (itemIndex > -1) {
+      cart.products[itemIndex].quantity = quantity;
+      await cart.save();
+    } else {
+      res.status(404).json({ message: "Product not in cart" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 //---deleting the item from the list
-exports.removefromCart = async (req, res) => {};
+exports.removefromCart = async (req, res) => {
+  const { productId } = req.body;
+  try {
+    let cart = await Cart.findOne({user : req.user._id});
+    if (!cart)
+      return res.status(404).json({ message: " Cart is not available" });
+
+    cart.products = cart.products.filter((p) => p.product.toString() !== productId);
+    await cart.save();
+    res.status(200).json(cart);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
