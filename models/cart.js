@@ -20,9 +20,13 @@ const cartSchema = new mongoose.Schema(
         },
       },
     ],
+    status: {
+      type: String,
+      enum: ["active", "ordered"],
+      default: "active",
+    },
   },
   { timestamps: true },
 );
 
 module.exports = mongoose.model("Cart", cartSchema);
-

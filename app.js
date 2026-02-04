@@ -20,6 +20,9 @@ app.use("/ecommerce/products",productRoutes);
 //----cart feature
 const cartRoutes = require("./routes/cartroutes");
 app.use("/ecommerce/cart",cartRoutes);
+//----order feature
+const orderRoutes = require("./routes/orderroutes");
+app.use("/ecommerce/order",orderRoutes);
 
 
 const PORT = process.env.PORT||5000;
