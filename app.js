@@ -9,6 +9,8 @@ app.use(express.json());
 const connectDB = require('./config/db');
 connectDB();
 
+const {errorhandler} = require("../middlewares/erroemiddlewares");
+
 
 //----routes(for registeration login )
 const authRoutes = require("./routes/authroutes")
@@ -23,6 +25,9 @@ app.use("/ecommerce/cart",cartRoutes);
 //----order feature
 const orderRoutes = require("./routes/orderroutes");
 app.use("/ecommerce/order",orderRoutes);
+
+//---A middleware for error handling
+app.use(errorhandler);
 
 
 const PORT = process.env.PORT||5000;
