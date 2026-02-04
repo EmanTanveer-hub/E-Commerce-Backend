@@ -3,6 +3,9 @@ const Cart = require("../models/cart");
 
 //--- CREATE ORDER
 //----in this step we are asking to convert user cart into order
+//User + Token → find active cart → create order → calculate total → 
+// set paymentStatus → save order → clear cart → set cart.status = ordered
+
 exports.createOrder = async (req, res) => {
   try {
     const { paymentMethod } = req.body;
