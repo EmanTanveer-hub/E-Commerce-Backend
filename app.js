@@ -9,7 +9,8 @@ app.use(express.json());
 const connectDB = require('./config/db');
 connectDB();
 
-const {errorhandler} = require("../middlewares/erroemiddlewares");
+//---Adding centralized error handling
+const {errorhandler} = require("./middlewares/errormiddlewares");
 
 
 //----routes(for registeration login )
