@@ -3,7 +3,7 @@ const Cart = require("../models/cart");
 
 //--- CREATE ORDER
 //----in this step we are asking to convert user cart into order
-//User + Token → find active cart → create order → calculate total → 
+//User + Token → find active cart → create order → calculate total →
 // set paymentStatus → save order → clear cart → set cart.status = ordered
 
 exports.createOrder = async (req, res) => {
@@ -41,7 +41,7 @@ exports.createOrder = async (req, res) => {
 
     //---- clear cart after order
     cart.products = [];
-    cart.status = "ordered"
+    cart.status = "ordered";
     await cart.save();
 
     res.status(200).json({ message: "Order is placed successfully", order });
@@ -73,6 +73,34 @@ exports.singleOrder = async (req, res) => {
     if (!order) return res.status(404).json({ message: "Orders not found " });
 
     res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//-- Update an order status
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order)
+      return res.status(404).json({ message: "There is no order found" });
+
+    const allowedStatus = ["pending", "confirmed", "shipped", "delivered"];
+    if (!allowedStatus)
+      return res.status(400).json({ message: "Invalid Status value" });
+
+    if (order.status === "delivered")
+      return res
+        .status(400)
+        .json({ message: "Delivered order cannot be updated" });
+
+    order.status = req.body.status;
+    await order.save();
+
+    res
+      .status(200)
+      .json({ message: "Order status is updated successfully", order });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
