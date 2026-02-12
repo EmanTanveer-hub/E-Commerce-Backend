@@ -5,7 +5,7 @@ const {
   createOrder,
   userOrders,
   singleOrder,
-  updateOrderStatus,
+  updateOrderStatus,cancelOrder
 } = require("../controllers/ordercontrollers");
 const {adminOnly} = require("../middlewares/adminOnly")
 
@@ -17,5 +17,9 @@ router.get("/orders", protect, userOrders);
 router.get("/order/:id", protect, singleOrder);
 //----used to update the order status of the order
 router.put("/admin/order/:id",protect, adminOnly ,updateOrderStatus);
+//---- when user wants to cancle its own order
+router.put("/order/cancel/:id",protect,cancelOrder);
+//---- when admin wants to cancel someones order
+router.put("/admin/cancel/:id",protect,adminOnly,cancelOrder);
 
 module.exports = router;
